@@ -38,5 +38,36 @@ RSpec.describe InvoiceItem, type: :model do
     it 'incomplete_invoices' do
       expect(InvoiceItem.incomplete_invoices).to eq([@i1, @i3])
     end
+
+    it 'subtotal revenue' do
+      merchant = Merchant.create!(name: 'Hair Care')
+
+      discount_1 = merchant.bulk_discounts.create!(discount: 0.20, quantity: 10)
+      discount_2 = merchant.bulk_discounts.create!(discount: 0.30, quantity: 15)
+
+      customer = Customer.create!(first_name: 'Victor', last_name: 'Garcia')
+      item = merchant.items.create!(name: 'Toys', description: 'Kids', unit_price: 17)
+      invoice = customer.invoices.create!(status: 0)
+      invoice_item = InvoiceItem.create!(quantity: 23, unit_price: 11.88, status: 0, invoice_id: invoice.id, item_id: item.id)
+
+      expect(invoice.total_revenue).to eq(273.24)
+    end
+
+    it 'discount revenue' do
+      merchant = Merchant.create!(name: 'Hair Care')
+
+      discount_1 = merchant.bulk_discounts.create!(discount: 0.20, quantity: 10)
+      discount_2 = merchant.bulk_discounts.create!(discount: 0.30, quantity: 15)
+
+      customer = Customer.create!(first_name: 'Victor', last_name: 'Garcia')
+      item = merchant.items.create!(name: 'Toys', description: 'Kids', unit_price: 11.88)
+      item_2 = merchant.items.create!(name: 'Towels', description: 'Adults', unit_price: 9.99)
+      invoice = customer.invoices.create!(status: 0)
+      invoice_item = InvoiceItem.create!(quantity: 23, unit_price: 11.88, status: 0, invoice_id: invoice.id, item_id: item.id)
+      invoice_item_2 = InvoiceItem.create!(quantity: 16, unit_price: 9.99, status: 0, invoice_id: invoice.id, item_id: item_2.id)
+
+
+      expect(invoice.invoice_items.discount_revenue).to eq(303.15600000000006)
+    end
   end
 end
