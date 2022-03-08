@@ -4,14 +4,13 @@ class InvoicesController < ApplicationController
 
   def index
     @invoices = @merchant.invoices
-    
+
   end
 
   def show
 
     @customer = @invoice.customer
-    #@invoice_item = Invoice.where(invoice_id: params[:id]).first
-    #@applied_discount = @invoice
+  
 
   end
 

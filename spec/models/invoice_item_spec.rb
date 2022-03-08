@@ -50,6 +50,7 @@ RSpec.describe InvoiceItem, type: :model do
       invoice = customer.invoices.create!(status: 0)
       invoice_item = InvoiceItem.create!(quantity: 23, unit_price: 11.88, status: 0, invoice_id: invoice.id, item_id: item.id)
 
+
       expect(invoice.total_revenue).to eq(273.24)
     end
 
@@ -66,8 +67,8 @@ RSpec.describe InvoiceItem, type: :model do
       invoice_item = InvoiceItem.create!(quantity: 23, unit_price: 11.88, status: 0, invoice_id: invoice.id, item_id: item.id)
       invoice_item_2 = InvoiceItem.create!(quantity: 16, unit_price: 9.99, status: 0, invoice_id: invoice.id, item_id: item_2.id)
 
-
-      expect(invoice.invoice_items.discount_revenue).to eq(303.15600000000006)
+      
+      expect(invoice.discount_revenue).to eq(303.156)
     end
   end
 end

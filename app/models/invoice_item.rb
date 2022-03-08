@@ -24,7 +24,7 @@ class InvoiceItem < ApplicationRecord
       #
       #     end
       #   end
-      
+
     # total = 0
     # discounts = item.merchant.bulk_discounts.where('bulk_discounts.quantity <= ?', quantity)
     # if discounts.nil?
@@ -50,21 +50,31 @@ class InvoiceItem < ApplicationRecord
 
     def applied_discount
     price = item.unit_price
-    item.merchant.bulk_discounts.order(discount: :desc, quantity: :desc).each do |discount|
-      if quantity >= discount.quantity
-        percent = discount.discount
-        price = price - (percent * item.unit_price)
-        break
-      end
+    discount =  item.merchant.bulk_discounts.where("#{self.quantity} >= bulk_discounts.quantity").order(discount: :desc).first
+    if discount.nil?
+      quantity * unit_price
+    else
+      (1 - discount.discount) * (  quantity * unit_price)
     end
-    price
+    # item.merchant.bulk_discounts.order(discount: :desc, quantity: :desc).each do |discount|
+    #   if quantity >= discount.quantity
+    #     percent = discount.discount
+    #     price = price - (percent * item.unit_price)
+    #     break
+    #   end
+    # end
+    # price
     end
 
-    def self.discount_revenue
-      all.map do |invoice_item|
-        invoice_item.quantity * invoice_item.applied_discount
-      end.sum
+    # def self.discount_revenue
+    #   all.map do |invoice_item|
+    #     invoice_item.quantity * invoice_item.applied_discount
+    #   end.sum
+    #
+    # end
 
+    def view_discount
+      item.merchant.bulk_discounts.where("#{self.quantity} >= bulk_discounts.quantity").order(discount: :desc).first
     end
 
     # def applied_discount
