@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+#USER STORY 7
 RSpec.describe 'Merchant Invoice Show Page' do
   it 'displays total revenue from invoice ' do
     merchant = Merchant.create!(name: 'Hair Care')
@@ -15,13 +16,14 @@ RSpec.describe 'Merchant Invoice Show Page' do
 
 
     visit "/merchant/#{merchant.id}/invoices/#{invoice.id}"
-    #save_and_open_page
+    #require "pry"; binding.pry
     expect(page).to have_content('Total Revenue: $273.24')
     expect(page).to have_content('Total After Discount: $191.27')
 
   end
 
-  xit 'us 8' do
+  #USER STORY 8
+  it 'us 8' do
     merchant = Merchant.create!(name: 'Hair Care')
 
     discount_1 = merchant.bulk_discounts.create!(discount: 0.20, quantity: 10)
@@ -38,6 +40,8 @@ RSpec.describe 'Merchant Invoice Show Page' do
     expect(page).to have_link('View Discount', count: 1)
     click_on('View Discount')
 
+
     expect(current_path).to eq("/merchant/#{merchant.id}/bulk_discounts/#{discount_2.id}")
+
   end
 end
