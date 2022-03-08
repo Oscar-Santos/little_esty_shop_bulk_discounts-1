@@ -16,7 +16,7 @@ RSpec.describe 'Merchant Invoice Show Page' do
 
 
     visit "/merchant/#{merchant.id}/invoices/#{invoice.id}"
-    #require "pry"; binding.pry
+  
     expect(page).to have_content('Total Revenue: $273.24')
     expect(page).to have_content('Total After Discount: $191.27')
 

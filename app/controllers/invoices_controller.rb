@@ -8,10 +8,7 @@ class InvoicesController < ApplicationController
   end
 
   def show
-
     @customer = @invoice.customer
-  
-
   end
 
   def update
