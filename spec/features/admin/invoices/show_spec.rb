@@ -69,4 +69,11 @@ describe 'Admin Invoices Index Page' do
       expect(@i1.status).to eq('complete')
     end
   end
+
+  it 'displays total revenue from invoice' do
+     expect(page).to have_content(@i1.total_revenue)
+
+     expect(page).to have_content(@i1.discount_revenue)
+
+  end
 end

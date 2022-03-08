@@ -11,6 +11,7 @@ RSpec.describe Item, type: :model do
     it { should have_many(:invoices).through(:invoice_items) }
     it { should belong_to :merchant }
   end
+  
   describe "instance methods" do
     it "best day" do
       @merchant1 = Merchant.create!(name: 'Hair Care')
