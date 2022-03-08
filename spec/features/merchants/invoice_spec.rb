@@ -14,11 +14,11 @@ RSpec.describe 'Merchant Invoice Show Page' do
     invoice_item = InvoiceItem.create!(quantity: 23, unit_price: 11.88, status: 0, invoice_id: invoice.id, item_id: item.id)
 
 
-
     visit "/merchant/#{merchant.id}/invoices/#{invoice.id}"
-  
+
     expect(page).to have_content('Total Revenue: $273.24')
     expect(page).to have_content('Total After Discount: $191.27')
+
 
   end
 

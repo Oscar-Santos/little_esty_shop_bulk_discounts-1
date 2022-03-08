@@ -23,7 +23,8 @@ class InvoiceItem < ApplicationRecord
     if discount.nil?
       quantity * unit_price
     else
-      (1 - discount.discount) * (  quantity * unit_price)
+      
+      (1 - discount.discount.to_f / 100) * (  quantity * unit_price)
     end
 
     end
@@ -33,5 +34,5 @@ class InvoiceItem < ApplicationRecord
       item.merchant.bulk_discounts.where("#{self.quantity} >= bulk_discounts.quantity").order(discount: :desc).first
     end
 
-  
+
     end

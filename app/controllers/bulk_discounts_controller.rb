@@ -6,6 +6,7 @@ class BulkDiscountsController < ApplicationController
     json = JSON.parse(response.body, symbolize_names: true)
     @holidays = json[0..2].map do |data|
       Holiday.new(data)
+      
     end
 
   end
