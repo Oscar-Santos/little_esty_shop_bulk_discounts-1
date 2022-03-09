@@ -1,9 +1,9 @@
 class InvoiceItem < ApplicationRecord
   validates_presence_of :invoice_id,
-                        :item_id,
-                        :quantity,
-                        :unit_price,
-                        :status
+  :item_id,
+  :quantity,
+  :unit_price,
+  :status
 
   belongs_to :invoice
   belongs_to :item
@@ -15,26 +15,30 @@ class InvoiceItem < ApplicationRecord
     Invoice.order(created_at: :asc).find(invoice_ids)
   end
 
+  def discount
+    @_discount ||=
+      item
+      .merchant
+      .bulk_discounts
+      .where("#{self.quantity} >= bulk_discounts.quantity")
+      .order(discount: :desc)
+      .first
+  end
 
+  def subtotal_invoice
+    quantity * unit_price
+  end
 
-    def applied_discount
+  def subtotal_invoice_with_discount
+    (1 - discount.discount) * (subtotal_invoice)
+  end
 
-    discount =  item.merchant.bulk_discounts.where("#{self.quantity} >= bulk_discounts.quantity").order(discount: :desc).first
-    if discount.nil?
-      quantity * unit_price
-    else
+  def applied_discount
+    return subtotal_invoice unless discount
+    subtotal_invoice_with_discount
+  end
 
-      (1 - discount.discount) * (quantity * unit_price)
-    end
-
-    end
-
-
-
-
-    def view_discount
-      item.merchant.bulk_discounts.where("#{self.quantity} >= bulk_discounts.quantity").order(discount: :desc).first
-    end
-
-
-    end
+  def view_discount
+    item.merchant.bulk_discounts.where("#{self.quantity} >= bulk_discounts.quantity").order(discount: :desc).first
+  end
+end
