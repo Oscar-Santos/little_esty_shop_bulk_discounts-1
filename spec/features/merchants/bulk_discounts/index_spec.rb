@@ -14,7 +14,6 @@ RSpec.describe 'Bulk discounts Index Page' do
       expect(page).to have_content(discount_1.quantity)
       expect(page).to have_content(discount_2.discount)
       expect(page).to have_content(discount_2.quantity)
-
   end
 
   it 'displays link to view all my discounts' do
@@ -30,9 +29,7 @@ RSpec.describe 'Bulk discounts Index Page' do
       expect(page).to have_link('Discount')
       click_on('Discount')
       end
-
       expect(current_path).to eq("/merchant/#{merchant.id}/bulk_discounts/#{discount_1.id}")
-
   end
 
   #USER STORY 2
@@ -54,7 +51,6 @@ RSpec.describe 'Bulk discounts Index Page' do
       expect(page).to have_content(holiday_2.date)
       expect(page).to have_content(holiday_3.name)
       expect(page).to have_content(holiday_3.date)
-
   end
 
   # USER STORY 3
@@ -102,18 +98,17 @@ RSpec.describe 'Bulk discounts Index Page' do
 
       visit "merchant/#{merchant.id}/bulk_discounts"
 
-       expect(page).to have_content(discount_1.discount)
-       within("discount-")
+      expect(page).to have_content(discount_1.discount)
+      within("discount-")
 
-       expect(page).to have_content(discount_1.discount)
-       expect(page).to have_content(discount_1.quantity)
-       expect(page).to have_link("Delete #{discount_1.discount}")
+      expect(page).to have_content(discount_1.discount)
+      expect(page).to have_content(discount_1.quantity)
+      expect(page).to have_link("Delete #{discount_1.discount}")
 
-       click_link("Delete #{discount_1.discount}")
-       expect(current_path).to eq("/merchant/#{merchant.id}/bulk_discounts")
+      click_link("Delete #{discount_1.discount}")
+      expect(current_path).to eq("/merchant/#{merchant.id}/bulk_discounts")
 
-       expect(page).to_not have_content(discount_1.discount)
-       expect(page).to_not have_content(discount_1.quantity)
+      expect(page).to_not have_content(discount_1.discount)
+      expect(page).to_not have_content(discount_1.quantity)
    end
-
   end

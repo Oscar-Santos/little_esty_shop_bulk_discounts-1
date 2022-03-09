@@ -70,10 +70,10 @@ describe 'Admin Invoices Index Page' do
     end
   end
 
+  #USER STORY 9
+  
   it 'displays total revenue from invoice' do
      expect(page).to have_content(@i1.total_revenue)
-
      expect(page).to have_content(@i1.discount_revenue)
-
   end
 end
